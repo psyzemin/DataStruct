@@ -1,0 +1,60 @@
+class LNode:
+    def __init__(self,elem,next_=None):
+        self.elem = elem
+        self.next = next_
+
+class LCList:
+    def __init__(self):
+        self._head = None
+
+    def isempty(self):
+        return self._head is None
+
+    def prepend(self,elem):
+        p = LNode(elem)
+        if self.isempty():
+            p.next = p
+            self._head = p
+        else:
+            p.next = self._head.next
+            self._head.next = p
+
+    def append(self,elem):
+        self.prepend(elem)
+        self._head = self._head.next
+
+    def pop(self):
+        if self.isempty():
+            raise ValueError("LCList is empty")
+        p = self._head.next
+        if self._head is p:
+            self._head = None
+        else:
+            self._head.next = p.next
+        return p.elem
+
+    def printall(self):
+        if self.isempty():
+            raise ValueError("LCList is empty")
+        else:
+            p = self._head.next
+            while True :
+                print(p.elem)
+                if p == self._head:
+                    break
+                p = p.next
+
+    def find(self,pred):
+        p = self._head.next
+        while p is not self._head:
+            if pred(p.elem):
+                return p.elem
+            p = p.next
+
+    def filter(self,pred):
+        p = self._head.next
+        while p is not self._head:
+            if pred(p.elem):
+                yield p.elem
+            p = p.next
+
